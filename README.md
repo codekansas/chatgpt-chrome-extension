@@ -13,7 +13,7 @@ This extension basically just automates a small bit of work, so that you can use
     2. Go to `chrome://extensions/`
     3. Enable developer mode
     4. Click on `Load unpacked`
-    5. Select the folder where you cloned this repo
+    5. Select the `chatgpt-chrome-extension` folder inside the folder where you cloned this repo
 2. Go to `chrome://settings/searchEngines`
 3. Add a new search engine
 4. Set the name to `ChatGPT`
