@@ -2,8 +2,8 @@ name: Update Chrome Extension
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v*.*.*
 
 jobs:
   build-chrome-extension:
@@ -15,18 +15,20 @@ jobs:
 
       - name: Build
         run: |-
-          zip -r chrome-extension-${{ github.sha }}.zip chatgpt-chrome-extension
+          zip -r chrome-extension-${{ github.event.pull_request.head.sha }}.zip chatgpt-chrome-extension
 
       - name: Archive chrome-extension artifact
         uses: actions/upload-artifact@v2
         with:
           name: chrome-extension-${{ github.sha }}
-          path: chrome-extension-${{ github.sha }}.zip
+          path: chrome-extension-${{ github.event.pull_request.head.sha }}.zip
 
   upload-extension:
     name: Upload extension
     runs-on: ubuntu-latest
     needs: build-chrome-extension
+    env:
+      EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
 
     steps:
       - uses: actions/setup-node@v2-beta
@@ -44,9 +46,9 @@ jobs:
 
       - name: Upload step
         run: |-
-          chrome-webstore-upload upload \\
-            --source chrome-extension-${{ github.sha }}.zip \\
-            --extension-id ${{ secrets.EXTENSION_ID }} \\
-            --client-id ${{ secrets.CI_GOOGLE_CLIENT_ID }} \\
-            --client-secret ${{ secrets.CI_GOOGLE_CLIENT_SECRET }} \\
+          chrome-webstore-upload upload \
+            --source chrome-extension-${{ github.event.pull_request.head.sha }}.zip \
+            --extension-id ${{ env.EXTENSION_ID }} \
+            --client-id ${{ secrets.CI_GOOGLE_CLIENT_ID }} \
+            --client-secret ${{ secrets.CI_GOOGLE_CLIENT_SECRET }} \
             --refresh-token ${{ secrets.CI_GOOGLE_REFRESH_TOKEN }}
