@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "ChatGPT as a Search Engine",
-  "description": "Simple extension to be able to search with ChatGPT",
+  "name": "ChatGPT Query Detector",
+  "description": "A simple extension which detects query strings in the ChatGPT URL and automatically enters them into the search box",
   "version": "1.1",
   "icons": {
     "128": "128.png"
